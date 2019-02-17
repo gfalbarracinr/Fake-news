@@ -23,6 +23,6 @@ data = pd.read_csv('trainEnglish.csv', delimiter=',')
 dataSetCleaner = DataSetCleaner
 
 #dataSetCleaner.removeLanguage(data, 'en')
-dataSetCleaner.removeHTML(data)
-dataSetCleaner.writeToFile(data, 'trainEnglish.csv')
+dataSetCleaner.removeHTML(DataSetCleaner, data)
+dataSetCleaner.writeToFile(DataSetCleaner, data, 'trainEnglish.csv')
 

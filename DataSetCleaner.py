@@ -24,8 +24,8 @@ class DataSetCleaner:
                 pass
 
     def removeHTML(self, data):
-        cleaner = re.compile('<.*?>')
-        for index, row in data.iterrows():
-            row['text'] = re.sub(cleaner, '', str(row['text']))
-        return data
-                    
+        data['text'] = data['text'].str.replace('<.*?>', "")
+
+
+
+                  
