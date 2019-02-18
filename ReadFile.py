@@ -10,7 +10,5 @@ dataSetCleaner = DataSetCleaner
 #data = dataSetCleaner.removeHTML(DataSetCleaner, data)
 #dataSetCleaner.writeToFile(DataSetCleaner, data, 'test.csv')
 vocabulary = Vocabulary('fake_news_words.csv')
-totalWords = vocabulary.countWordsTotal(data)
-dataSetCleaner.writeToFile(dataSetCleaner, totalWords, 'words.csv')
-print(totalWords)
-
+#totalWords = vocabulary.countWordsTotal(data)
+#dataSetCleaner.writeToFile(dataSetCleaner, totalWords, 'words.csv')

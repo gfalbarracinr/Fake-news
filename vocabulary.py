@@ -5,8 +5,10 @@ import re
 
 class Vocabulary:
     def __init__(self, fileName):
-        self.file = pd.read_csv(fileName, delimiter=',')
+        self.file = pd.read_csv(fileName, delimiter=' ')
         self.words = self.file['words']
+        for index, w in self.words['words']:
+            print(str(w))
 
     def countWords (self, data):
         featureMatrix = {}
