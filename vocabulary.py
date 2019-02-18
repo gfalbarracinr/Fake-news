@@ -18,7 +18,7 @@ class Vocabulary:
             article = str(row['text'])
             for word in self.words:
                 (featureMatrix[index])[word] = article.translate(translator).lower().split().count(word)
-        return featureMatrix
+        return pd.DataFrame.from_dict(featureMatrix)
 
     def countWordsTotal (self, data): 
         featureMatrix = {}
@@ -31,8 +31,8 @@ class Vocabulary:
                     featureMatrix[word] += cleanedArticle.count(word)
                 else:
                     featureMatrix[word] = cleanedArticle.count(word)
-                
-        return featureMatrix
+            print(featureMatrix)    
+        return pd.DataFrame.from_dict(featureMatrix)
 
 
 
