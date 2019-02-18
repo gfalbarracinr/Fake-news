@@ -6,8 +6,6 @@ class DataSetCleaner:
 
 
     def __init__(self):
-        #data = pd.read_csv('train.csv')
-        #self.removeLanguage(data, "en", "trainEnglish.csv")
         return
 
     def writeToFile(self, data, fileName):
@@ -15,16 +13,20 @@ class DataSetCleaner:
 
     #This function removes the article from the dataset if its not the desired language.
     def removeLanguage (self, dataToTraverse, languageToKeep):
-        for index, row in dataToTraverse.iterrows():
+        data = dataToTraverse
+        for index, row in data.iterrows():
             try:
                 if detect(row['text']) != languageToKeep:
-                    dataToTraverse = dataToTraverse.drop(index)
+                    data = data.drop(index)
                     
             except:
                 pass
+        return data
 
     def removeHTML(self, data):
-        data['text'] = data['text'].str.replace('<.*?>', "")
+        toReturn = data
+        toReturn['text'] = toReturn['text'].str.replace('<.*?>', "")
+        return toReturn
 
 
 
