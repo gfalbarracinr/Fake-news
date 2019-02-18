@@ -9,7 +9,7 @@ dataSetCleaner = DataSetCleaner
 #data = dataSetCleaner.removeLanguage(DataSetCleaner, data, 'en')
 #data = dataSetCleaner.removeHTML(DataSetCleaner, data)
 #dataSetCleaner.writeToFile(DataSetCleaner, data, 'test.csv')
-vocabulary = Vocabulary('fake_news_words.csv')
+vocabulary = Vocabulary('fn.csv')
 totalWords = vocabulary.countWordsTotal(data)
 dataSetCleaner.writeToFile(dataSetCleaner, totalWords, 'words.csv')
 print(totalWords)
