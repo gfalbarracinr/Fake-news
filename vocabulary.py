@@ -3,24 +3,26 @@ import pandas as pd
 from string import punctuation
 import re
 
+
 class Vocabulary:
     def __init__(self, fileName):
         self.file = pd.read_csv(fileName, delimiter=',')
         self.words = self.file['words']
 
-    def countWords (self, data):
+    def countWords(self, data):
         featureMatrix = {}
         translator = str.maketrans('', '', punctuation)
         for index, row in data.iterrows():
             featureMatrix[index] = {}
             article = str(row['text'])
             for word in self.words:
-                (featureMatrix[index])[word] = article.translate(translator).lower().split().count(word)
+                (featureMatrix[index])[word] = article.translate(
+                    translator).lower().split().count(word)
         return featureMatrix
 
-    #This function counts all the words from the vocabulary in all the articles. 
-    #Then return a dataframe containing the list of words and their frequency.
-    def countWordsTotal (self, data): 
+    # This function counts all the words from the vocabulary in all the articles.
+    # Then return a dataframe containing the list of words and their frequency.
+    def countWordsTotal(self, data):
         featureMatrix = {}
         translator = str.maketrans('', '', punctuation)
         for index, row in data.iterrows():
@@ -30,8 +32,21 @@ class Vocabulary:
                 if word in featureMatrix:
                     featureMatrix[word] += cleanedArticle.count(word)
                 else:
-                    featureMatrix[word] = cleanedArticle.count(word)    
+                    featureMatrix[word] = cleanedArticle.count(word)
         return pd.DataFrame(list(featureMatrix.items()), columns=['words', 'count'])
 
+    def countWordInAnArticle(self, article, wordToCount):
+        translator = str.maketrans('', '', punctuation)
+        cleanedArticle = article.translate(translator).lower().split()
+        return cleanedArticle.count(wordToCount)
 
-
+    def probabilityOfRealAndFakeArticlesFromTheDataset(self, data):
+        countReal = 0
+        countFake = 0
+        for index, row in data.iterrows():
+            if str(row['label']) == "0":
+                countReal += 1
+            else:
+                countFake += 1
+        total = countFake + countReal
+        return countReal/total, countFake/total
