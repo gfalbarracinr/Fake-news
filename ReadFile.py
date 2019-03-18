@@ -17,6 +17,19 @@ dataSetCleaner.writeToFile(DataSetCleaner, data, 'train.csv') """
 dataSetCleaner = DataSetCleaner
 vocabulary = Vocabulary('fn.csv')
 
+def test(data):
+    count = 0
+    countotal = 0
+    for index, row in data.iterrows():
+
+        article = str(row['text'])
+        prediction = predict(article)
+        label = row['label']
+        if label == prediction:
+            count += 1
+        countotal += 1 
+
+    return count/countotal
 def train(data):
 
     #Calculating word probabilities P(A)
@@ -56,10 +69,6 @@ def predict (article):
     # PI(P(wi | y = 0)) = probabilityReal and PI(P(wi | y = 1))  = probabilityFake
     probabilityReal = likelihoodProbabilityReal(features, realProbabilityDict)
     probabilityFake = likelihoodProbabilityFake(features, fakeProbabilityDict)
-    print("PI(P(wi | y = 0)) real: " + str(probabilityReal))
-    print("PI(P(wi | y = 1)) fake: " + str(probabilityFake))
-
-
     #Multiplying likelihood probability with probability of article being real
     probabilityReal *= float(probabilityOfArticleBeingRealOrFake[0])
     probabilityFake *= float(probabilityOfArticleBeingRealOrFake[1])
@@ -70,13 +79,11 @@ def predict (article):
 
 
     # #doing the logarithm part from the forumala
-    probabilityFake = math.log(probabilityFake)
-    probabilityReal = math.log(probabilityReal)
+    # probabilityFake = math.log(probabilityFake)
+    # probabilityReal = math.log(probabilityReal)
 
     #We'll use the probabilities without the log here for the time being
     #Returns the label, 1 for fake and 0 for real
-    print(probabilityReal)
-    print(probabilityFake)
     if probabilityFake > probabilityReal:
         return 1
     else:
@@ -102,16 +109,17 @@ def likelihoodProbabilityFake(featureList, fakeProbabilities):
 
     return featureProbabilitiesMultiplied
 
-# df = pd.read_csv('trainEnglish.csv', delimiter=',')
-# y = df.label
-# X = df
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=69)
+df = pd.read_csv('trainEnglish.csv', delimiter=',')
+y = df.label
+X = df
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=69)
 
-# train(X_train)
+#train(X_train)
+dataset = X_test.append(y_test)
 #Example on how the prediction can work
 articleReal = " words words words more lalala such is life only potato"
 articleFake = "just writing my article very articulate " 
-
+print(test(dataset))
 #print(predict(articleReal))
 print(predict(articleFake))
 
