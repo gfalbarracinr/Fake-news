@@ -5,6 +5,7 @@ from vocabulary import Vocabulary
 from sklearn.model_selection import train_test_split 
 import re
 import math 
+import sys
 
 
 
@@ -56,9 +57,6 @@ def predict (article):
     # PI(P(wi | y = 0)) = probabilityReal and PI(P(wi | y = 1))  = probabilityFake
     probabilityReal = likelihoodProbabilityReal(features, realProbabilityDict)
     probabilityFake = likelihoodProbabilityFake(features, fakeProbabilityDict)
-    print("PI(P(wi | y = 0)) real: " + str(probabilityReal))
-    print("PI(P(wi | y = 1)) fake: " + str(probabilityFake))
-
 
     #Multiplying likelihood probability with probability of article being real
     probabilityReal *= float(probabilityOfArticleBeingRealOrFake[0])
@@ -68,15 +66,13 @@ def predict (article):
     probabilityReal /= probabilityReal + probabilityFake
     probabilityFake /= probabilityReal + probabilityFake
 
-
     # #doing the logarithm part from the forumala
-    probabilityFake = math.log(probabilityFake)
-    probabilityReal = math.log(probabilityReal)
+    #probabilityFake = math.log(probabilityFake)
+    #probabilityReal = math.log(probabilityReal)
 
     #We'll use the probabilities without the log here for the time being
     #Returns the label, 1 for fake and 0 for real
-    print(probabilityReal)
-    print(probabilityFake)
+
     if probabilityFake > probabilityReal:
         return 1
     else:
@@ -102,18 +98,18 @@ def likelihoodProbabilityFake(featureList, fakeProbabilities):
 
     return featureProbabilitiesMultiplied
 
+#This is for training. Data is split and then X_train is used as data.
 # df = pd.read_csv('trainEnglish.csv', delimiter=',')
 # y = df.label
 # X = df
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=69)
 
 # train(X_train)
-#Example on how the prediction can work
-articleReal = " words words words more lalala such is life only potato"
-articleFake = "just writing my article very articulate " 
 
-#print(predict(articleReal))
-print(predict(articleFake))
+
+
+#Prints out the prediction where 0 is for real article and 1 is for a fake one.
+print(predict(sys.argv[1]))
 
 
 
